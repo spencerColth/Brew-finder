@@ -45,6 +45,7 @@ cityButton.addEventListener('click', function (){
             let e = document.createElement("e");
                 e.setAttribute('id',"e")
                 brewCard.appendChild(e);
+//=================== Favorites Button =======================
             let favorite = document.createElement("button");
             favorite.innerHTML = "Favorite";
             favorite.className = "buttons";
@@ -54,7 +55,16 @@ cityButton.addEventListener('click', function (){
                 brewCard.classList.remove('result-card');
                 brewList.remove();
                 favorite.remove();
+                let remove = document.createElement("button")
+                remove.className = "buttons";
+                remove.innerHTML = "Remove";
+                remove.addEventListener('click', function (){
+                    
+                    brewCard.remove();
+                })
+                brewCard.append(remove);
             });
+//==================== Hit - List Button ==============
             let brewList = document.createElement("button");
             brewList.innerHTML = "Hit List";
             brewList.className = "buttons";
@@ -63,6 +73,21 @@ cityButton.addEventListener('click', function (){
                 brewCard.className = "hit-list";
                 brewCard.classList.remove('result-card');
                 brewList.remove();
+                
+                let removeHit = document.createElement("button")
+                removeHit.className = "buttons";
+                removeHit.innerHTML = "Remove";
+
+                brewCard.append(removeHit);
+                favorite.addEventListener('click', function (){
+                    removeHit.remove();
+                })
+                removeHit.addEventListener('click', function (){
+                    
+                    brewCard.remove();
+//================= Remove without favoriting ===============
+});
+
             });
             
 //============== assign values to blocks ================                 
@@ -71,12 +96,9 @@ cityButton.addEventListener('click', function (){
         c.innerHTML = data[i].street;
         d.innerText = data[i].phone;
         e.innerText = data[i].city;
-        // city.innerText = data[i].city;
         center.append(brewCard)
-        // center.append(results)
         brewCard.appendChild(favorite);
         brewCard.appendChild(brewList);
-        // remove(allResults);
         }
     });
 });

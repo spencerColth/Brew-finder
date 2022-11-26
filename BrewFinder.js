@@ -11,20 +11,15 @@ let stateButton = document.querySelector('#state');
 let zipButton = document.querySelector('#zip-code');
 const input = document.querySelector("input[name='search']");
 let resetButton = document.querySelector('#reset');
-
-
-// resetButton.addEventListener('click', function(){
-//     $('.center-feed').empty();
-// });
-
-
-
-
+//============== Search button feature ================
 cityButton.addEventListener('click', function (){
     const searchText = input.value;
+    // AJAX call to Open Brewery DB 
     $.get(`https://api.openbrewerydb.org/breweries?by_city=${searchText}`, (data) => {
         console.log(data)
+        //clear search results with new input
         $('.center-feed').empty();
+        // loop to create a card for each brewery in the search results
         for(let i = 0; i < data.length; i++){
             let brewCard = document.createElement('card');
             brewCard.className = 'result-card';
@@ -47,50 +42,51 @@ cityButton.addEventListener('click', function (){
                 brewCard.appendChild(e);
 //=================== Favorites Button =======================
             let favorite = document.createElement("button");
-            favorite.innerHTML = "Favorite";
-            favorite.className = "buttons";
+                favorite.innerHTML = "Favorite";
+                favorite.className = "buttons";
             favorite.addEventListener('click', function(){
+                // clicking favorite adds brewCard to favorites panel, adds hit-list class, removes excess buttons and result-card class
                 favorites.append(brewCard);
                 brewCard.className = "hit-list";
                 brewCard.classList.remove('result-card');
                 brewList.remove();
                 favorite.remove();
-                let remove = document.createElement("button")
+                // create remove button element
+            let remove = document.createElement("button")
                 remove.className = "buttons";
                 remove.innerHTML = "Remove";
-                remove.addEventListener('click', function (){
-                    
-                    brewCard.remove();
-                })
+                //clicking remove deletes the brewCard
+            remove.addEventListener('click', function (){
+                brewCard.remove();
+})
                 brewCard.append(remove);
-            });
+});
 //==================== Hit - List Button ==============
             let brewList = document.createElement("button");
-            brewList.innerHTML = "Hit List";
-            brewList.className = "buttons";
+                brewList.innerHTML = "Hit List";
+                brewList.className = "buttons";
+                // clicking brewList adds brewCard to hit-list panel, adds hit-list class, removes excess buttons and result-card class. Also adds new remove button to delete from the hit list.
             brewList.addEventListener('click', function(){
                 hitList.append(brewCard);
                 brewCard.className = "hit-list";
                 brewCard.classList.remove('result-card');
                 brewList.remove();
-                
-                let removeHit = document.createElement("button")
+            let removeHit = document.createElement("button")
                 removeHit.className = "buttons";
                 removeHit.innerHTML = "Remove";
-
                 brewCard.append(removeHit);
+                //removes new remove button when added to the favorites list from the hit list
                 favorite.addEventListener('click', function (){
                     removeHit.remove();
-                })
-                removeHit.addEventListener('click', function (){
-                    
-                    brewCard.remove();
+})
 //================= Remove without favoriting ===============
+                //removes from hit-list without adding to favorites
+                removeHit.addEventListener('click', function (){
+                    brewCard.remove();
 });
-
-            });
-            
-//============== assign values to blocks ================                 
+});       
+//============== assign values to blocks ================    
+        //fills in text for each brewery and appends search results to the center feed             
         a.innerHTML = data[i].name;
         b.innerHTML = data[i].brewery_type;
         c.innerHTML = data[i].street;
@@ -102,7 +98,3 @@ cityButton.addEventListener('click', function (){
         }
     });
 });
-
-favorites.addEventListener('click', function(){
-
-})
